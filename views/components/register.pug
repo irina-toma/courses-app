@@ -1,0 +1,41 @@
+#register-card.d-none.justify-content-center.h-100
+    .card
+        .card-header
+            h3 Sign Up
+        .card-body
+            form#register-form(name='register-form')
+                // full name
+                .input-group.form-group
+                    .input-group-prepend
+                        span.input-group-text
+                            i.fas.fa-user
+                    input.form-control(name='fullname' type='text' placeholder='full name')
+                // email
+                .input-group.form-group
+                    .input-group-prepend
+                        span.input-group-text
+                            i.fas.fa-envelope
+                    input.form-control(name='email' type='text' placeholder='email')
+                // username
+                .input-group.form-group
+                    .input-group-prepend
+                        span.input-group-text
+                            i.fas.fa-users
+                    input.form-control(name='username' type='text' placeholder='username')
+                // password
+                .input-group.form-group
+                    .input-group-prepend
+                        span.input-group-text
+                            i.fas.fa-key
+                    input.form-control(name='password' type='password' placeholder='password')
+                // register btn
+                .form-group
+                    input.btn.btn-block.login_btn(type='submit' value='Register' name='register')
+                .text-danger
+                    | #{message}
+        .card-footer
+            #sign-in-text.justify-content-center.links.d-flex
+                | Already have an account?
+                a#sign-in(href='#') Sign In
+            .d-flex.justify-content-center
+                a(href='#') Forgot your password?
