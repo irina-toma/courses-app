@@ -1,7 +1,13 @@
-const { Course } = require('../../models');
+const {
+    Course
+} = require('../../models');
 
-const { authorizeAndExtractToken } = require('../security/jwt.js');
-const { authorizeRoles } = require('../security/roles.js');
+const {
+    authorizeAndExtractToken
+} = require('../security/jwt.js');
+const {
+    authorizeRoles
+} = require('../security/roles.js');
 
 const express = require('express');
 const router = express.Router();
@@ -13,8 +19,24 @@ router.get('/', async (req, resp, next) => {
     const limit = req.query.limit;
 
     try {
-        let courses = await Course.find().where('duration_days').lt(20).exec();
-        resp.json(courses);
+        let courses = await Course.find();
+
+        let domains = {};
+
+        for (let i = 0; i < courses.length; i++) {
+
+            let courseType = courses[i].course_type;
+
+            if (domains[courseType]) {
+                domains[courseType].push(courses[i]);
+            } else {
+                domains[courseType] = [courses[i]];
+            }
+        }
+
+        resp.render('courses', {
+            domains
+        });
     } catch (err) {
         next(err);
     }
