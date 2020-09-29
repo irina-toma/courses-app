@@ -1,4 +1,4 @@
-#register-card.d-none.justify-content-center.h-100
+#register-card.d-flex.justify-content-center.h-100
     .card
         .card-header
             h3 Sign Up
@@ -31,11 +31,11 @@
                 // register btn
                 .form-group
                     input.btn.btn-block.login_btn(type='submit' value='Register' name='register')
-                .text-danger
-                    | #{message}
+                #err-msg.d-flex.justify-content-center.text-danger 
+                    | #{message} 
         .card-footer
             #sign-in-text.justify-content-center.links.d-flex
                 | Already have an account?
-                a#sign-in(href='#') Sign In
+                a(href='/auth/login') Sign In
             .d-flex.justify-content-center
                 a(href='#') Forgot your password?

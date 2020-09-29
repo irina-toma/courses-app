@@ -2,18 +2,11 @@ document.addEventListener('DOMContentLoaded', onload);
 
 function onload() {
     let lForm = document.forms['login-form'];
-    let signUp = document.getElementById('sign-up');
-
-    lForm.addEventListener('submit', preventDefaultBehaviour);
-    lForm['login'].addEventListener('click', login);
-    signUp.addEventListener('click', toggleSignInSignUp);
+    lForm.addEventListener('submit', login);
 }
 
-function preventDefaultBehaviour(event) {
+function login(event) {
     event.preventDefault();
-}
-
-function login() {
     let lForm = document.forms['login-form'];
     let username = lForm['username'].value;
     let password = lForm['password'].value;
@@ -22,11 +15,11 @@ function login() {
         username, password
     };
 
-    doPost('http://localhost:4000/auth/login', params, callbackLogin);
+    doPost('http://localhost:4000/auth/login', params);
 }
 
 
-function doPost(url, params, callback) {
+function doPost(url, params) {
     let req = new XMLHttpRequest();
 
     req.open('POST', url);
@@ -35,13 +28,19 @@ function doPost(url, params, callback) {
     req.send(JSON.stringify(params));
 
     req.onload = () => {
-        callback(req.response);
+        const data = JSON.parse(req.response);
+        if (!data.success) {
+            displayError(data.message)
+        } else {
+            localStorage.setItem("token", data.data.token);
+            location.assign(data.data.url);
+        }
     }
 }
 
-function callbackLogin(data) {
-    let container = document.getElementsByTagName('html')[0];
-    container.innerHTML = data;
+function displayError(err) {
+    const msgElem = document.getElementById('err-msg');
+    msgElem.innerHTML = err;
 }
 
 

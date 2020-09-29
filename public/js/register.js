@@ -2,19 +2,11 @@ document.addEventListener('DOMContentLoaded', onload);
 
 function onload() {
     let rForm = document.forms['register-form'];
-    let signIn = document.getElementById('sign-in');
-
-    rForm.addEventListener('submit', preventDefaultBehaviour);
-    rForm['register'].addEventListener('click', register);
-    signIn.addEventListener('click', toggleSignInSignUp);
+    rForm.addEventListener('submit', register);
 }
 
-function preventDefaultBehaviour(event) {
+function register(event) {
     event.preventDefault();
-}
-
-function register() {
-
     let rForm = document.forms['register-form'];
     let name = rForm['fullname'].value;
     let email = rForm['email'].value;
@@ -25,10 +17,10 @@ function register() {
         name, email, username, password
     }
 
-    doPost('http://localhost:4000/auth/register', params, callbackRegister);
+    doPost('http://localhost:4000/auth/register', params);
 }
 
-function doPost(url, params, callback) {
+function doPost(url, params) {
     let req = new XMLHttpRequest();
 
     req.open('POST', url);
@@ -37,13 +29,16 @@ function doPost(url, params, callback) {
     req.send(JSON.stringify(params));
 
     req.onload = () => {
-        callback(req.response);
+        const data = JSON.parse(req.response);
+        if (!data.success) {
+            displayError(data.message)
+        } else {
+            location.assign(data.data.url);
+        }
     }
 }
 
-function callbackRegister(data) {
-    let container = document.getElementsByTagName('html')[0];
-    container.innerHTML = data;
+function displayError(err) {
+    const msgElem = document.getElementById('err-msg');
+    msgElem.innerHTML = err;
 }
-
-

@@ -18,12 +18,12 @@
                     input.form-control(name='password' type='password' placeholder='password')
                 // login btn
                 .form-group
-                    input.btn.btn-block.login_btn(name='login' type='submit' value='Login')
-                .text-danger
+                    input.btn.btn-block.login_btn(type='submit' value='Login')
+                #err-msg.d-flex.justify-content-center.text-danger 
                     | #{message}
         .card-footer
             #sign-up-text.d-flex.justify-content-center.links
                 | Don&apos;t have an account?
-                a#sign-up(href='#') Sign Up
+                a(href='/auth/register') Sign Up
             .d-flex.justify-content-center
                 a(href='#') Forgot your password?
