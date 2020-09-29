@@ -1,0 +1,33 @@
+mixin courseElem(domainName, imgSrc, courseName, rating, description, courseId)
+    .col-md-4
+        .card
+            .card-header.d-flex.justify-content-center
+                h2= domainName
+            img.card-img-top(src= imgSrc)
+            .card-body
+                h4.card-title
+                    .d-flex.justify-content-between
+                        span= courseName
+                        span
+                            i.fas.fa-star.text-warning.mr-2
+                            span= rating
+                            span.mx-1 /
+                            span 5
+                p.card-text= description
+                a.btn.btn-lg.btn-block.btn-primary(href="/courses?id=" + courseId) View more
+
+
+
+#most-popular.container.mt-5
+    .row.d-flex.justify-content-center
+        h1.p-4= description
+    .row
+        each val, index in courses
+            +courseElem(val.course_type, val.img, val.course_name, val.rating, val.description, val._id)
+            
+
+//- for (let i = 0; i < courses.lenght; i ++) {
+//-     index = i;
+//-     val = course[i];
+//- } 
+        

@@ -1,20 +1,29 @@
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
-    body
-
-    //- jQuery
-    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js"  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
-    script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous")
-	//- Bootsrap 4 CDN
-	link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous")
-    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous")
-    //- Fontawesome CDN
-	link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous")
-	//- Custom styles
-    link(rel="stylesheet" type="text/css" href="./css/auth.css")
-    //- Custom scripts
-    script(src="./js/auth.js")
-    script(src="./utils/globals.js")
+header
+    nav.nav
+        .container
+            .logo
+                a(href="#") OSC
+            #mainListDiv.main_list
+                ul.navlinks
+                    li
+                        a#nav-home(href="#") Home
+                    li
+                        a#nav-courses(href="/courses") Courses
+                    li
+                        a(href="prices.html") Prices
+                    li
+                        a(href="about.html") About
+                    li
+                        a(href="contact.html") Contact
+                    li
+                        a#nav-my-profile(href="/my-profile") My profile
+                    li
+                        a#nav-login(href="/auth/login") Login
+    section.home
+        .nav-desc
+            h1 Welcome to Oxford Summer Courses
+            p
+                | Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum ratione facere animi impedit rem
+                | labore sint repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum cumque.
+                | Voluptatem beatae id inventore quod voluptate qui deserunt, quis placeat, tempora ex totam, dolore
+                | sequi harum eos voluptatibus animi labore officiis minus laboriosam

@@ -66,6 +66,14 @@ const courseSchema = new Schema({
         type: Number,
         required: false
     },
+    img: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        reguired: true
+    },
     dates: [dateSchema]
 }, { timestamps: true });
 

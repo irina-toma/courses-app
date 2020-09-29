@@ -1,175 +1,18 @@
 doctype html
 html(lang="en")
     head
-        meta(charset="UTF-8")
-        meta(name="viewport" content="width=device-width, initial-scale=1.0")
-        title Document
-        // jQuery
-        script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous")
-        // Popper
-        script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous")
-        // Bootsrap 4 CDN
-        link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous")
-        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous")
-        // Fontawesome CDN
-        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous")
-
+        include ./components/head.pug
         style
             include ../public/css/index.css
 
         script
             include ../public/js/index.js
     body
-        header
-            nav.nav
-                .container
-                    .logo
-                        a(href="#") OSC
-                    #mainListDiv.main_list
-                        ul.navlinks
-                            li
-                                a#nav-home(href="#") Home
-                            li
-                                a#nav-courses(href="#") Courses
-                            li
-                                a(href="prices.html") Prices
-                            li
-                                a(href="about.html") About
-                            li
-                                a(href="contact.html") Contact
-                            li
-                                a#nav-my-profile(href="#") My profile
-                            li
-                                a#nav-login(href="/auth/login") Login
-            section.home
-                .nav-desc
-                    h1 Welcome to Oxford Summer Courses
-                    p
-                        | Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum ratione facere animi impedit rem
-                        | labore sint repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum cumque.
-                        | Voluptatem beatae id inventore quod voluptate qui deserunt, quis placeat, tempora ex totam, dolore
-                        | sequi harum eos voluptatibus animi labore officiis minus laboriosam
+        include ./components/header.pug
+
         div(style="height: 1000px")
-            #most-popular.container.mt-5
-                .row.d-flex.justify-content-center
-                    h1.p-4 Our most popular courses
-                .row
-                    .col-md-4
-                        // TODO: generate cards dynamically based on MongoDB data
-                        .card
-                            .card-header.d-flex.justify-content-center
-                                h2 Domain 1
-                            img.card-img-top(src="https://source.unsplash.com/random/300x200?art" alt="...")
-                            .card-body
-                                h4.card-title
-                                    .d-flex.justify-content-between
-                                        span Course 1
-                                        span
-                                            i.fas.fa-star.text-warning
-                                            span 4.5/5
-                                p.card-text
-                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                a.btn.btn-lg.btn-block.btn-primary(href="#") View more
-                    .col-md-4
-                        .card
-                            .card-header.d-flex.justify-content-center
-                                h2 Domain 2
-                            img.card-img-top(src="https://source.unsplash.com/random/300x200?education" alt="...")
-                            .card-body
-                                h4.card-title
-                                    .d-flex.justify-content-between
-                                        span Course 2
-                                        span
-                                            i.fas.fa-star.text-warning
-                                            span 4.1/5
-                                p.card-text
-                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                a.btn.btn-lg.btn-block.btn-primary(href="#") View more
-                    .col-md-4
-                        .card
-                            .card-header.d-flex.justify-content-center
-                                h2 Domain 3
-                            img.card-img-top(src="https://source.unsplash.com/random/300x200?science" alt="...")
-                            .card-body
-                                h4.card-title
-                                    .d-flex.justify-content-between
-                                        span Course 3
-                                        span
-                                            i.fas.fa-star.text-warning
-                                            span 3.9/5
-                                p.card-text
-                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                a.btn.btn-lg.btn-block.btn-primary(href="#") View more
-            #course-details.container.mt-5
-                .row
-                    .col-md-3
-                        #accordion
-                            // first domain
-                            .card
-                                #heading1.card-header
-                                    .mb-0.d-flex.justify-content-between.align-items-center
-                                        button.btn.font-medium(data-toggle="collapse" data-target="#collapse1")
-                                            | Domain 1
-                                        span.badge.badge-primary.badge-pill.font-medium 3
-                                #collapse1.collapse.show(data-parent="#accordion")
-                                    .card-body.p-0
-                                        .border-bottom.cursor-pointer.p-2.font-medium.text-primary
-                                            | Course 1
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 2
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 3
-                            // second domain
-                            .card
-                                #heading2.card-header
-                                    .mb-0.d-flex.justify-content-between.align-items-center
-                                        button.btn.font-medium.collapsed(data-toggle="collapse" data-target="#collapse2")
-                                            | Domain 2
-                                        span.badge.badge-primary.badge-pill.font-medium 4
-                                #collapse2.collapse(data-parent="#accordion")
-                                    .card-body.p-0
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 1
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 2
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 3
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 4
-                            // third domain
-                            .card
-                                #heading3.card-header
-                                    .mb-0.d-flex.justify-content-between.align-items-center
-                                        button.btn.font-medium.collapsed(data-toggle="collapse" data-target="#collapse3")
-                                            | Domain 3
-                                        span.badge.badge-primary.badge-pill.font-medium 2
-                                #collapse3.collapse(data-parent="#accordion")
-                                    .card-body.p-0
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 1
-                                        .border-bottom.cursor-pointer.p-2.font-medium Course 2
-                    .col-md
-                        h1 Course 1
-                        .row.p-0
-                            img.ml-4(src="https://source.unsplash.com/random/300x200?education")
-                            .col.font-medium
-                                p
-                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                p
-                                    | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        p.font-medium.mt-3
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        p.font-medium
-                            | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        .d-flex.justify-content-end
-                            button.btn.btn-warning.btn-lg Apply now!
+            include ./components/top-courses.pug 
+        
         // Function used to shrink nav bar removing paddings and adding black background
         script.
             $(window).scroll(function () {

@@ -6,6 +6,8 @@ const { authorizeRoles } = require('../security/roles.js');
 const express = require('express');
 const router = express.Router();
 
+
+
 // get all courses
 router.get('/', async (req, resp, next) => {
     const limit = req.query.limit;
