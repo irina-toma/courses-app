@@ -1,0 +1,44 @@
+mixin formInput(label, content, disabled, inputType)
+    .form-group
+        label= label
+        input#exampleInputEmail1.form-control(type= inputType placeholder= label disabled= disabled)= content
+    
+
+
+
+
+doctype html
+html(lang="en")
+    head
+        include ./components/head.pug
+        style
+            include ../public/css/index.css
+
+        script
+            include ../public/js/index.js
+    body
+        include ./components/header.pug
+
+        div(style="height: 1000px")
+            form
+                +formInput('Name', user.name, true, 'text')
+                +formInput('E-mail', user.email, true, 'email')
+                +formInput('Address', '', false, 'text')
+                +formInput('Phone Number', '', false, 'text')
+                +formInput('Domain', course.course_type, true, 'text')
+                +formInput('Course Name', course.course_name, true, 'text')
+                +formInput('Location', course.location, true, 'text')
+                +formInput('Age group', course.age_group, true, 'text')
+                +formInput('Accommodation details', course.acommodation_details, true, 'text')
+                +formInput('Price', course.price, true, 'text')
+                +formInput('Duration', course.duration, true, 'text')
+                .form-group
+                    label Select available dates
+                    select#exampleFormControlSelect2.form-control(multiple='')
+                        each val in course.dates
+                            option= val.start_date
+                a(href= course.link)
+
+            
+        
+    

@@ -6,7 +6,7 @@ header
             #mainListDiv.main_list
                 ul.navlinks
                     li
-                        a#nav-home(href="#") Home
+                        a#nav-home(href="/") Home
                     li
                         a#nav-courses(href="/courses") Courses
                     li
@@ -27,3 +27,13 @@ header
                 | labore sint repellendus ipsa sapiente voluptatem aut excepturi quo itaque, ab earum cumque.
                 | Voluptatem beatae id inventore quod voluptate qui deserunt, quis placeat, tempora ex totam, dolore
                 | sequi harum eos voluptatibus animi labore officiis minus laboriosam
+
+    script.
+        $(window).scroll(function () {
+        if ($(document).scrollTop() > 50) {
+            $('.nav').addClass('affix');
+            console.log("OK");
+        } else {
+            $('.nav').removeClass('affix');
+        }
+        });

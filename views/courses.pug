@@ -11,15 +11,4 @@ html(lang="en")
         include ./components/header.pug
 
         div(style="height: 1000px")
-            include ./components/details-courses.pug 
-        
-        // Function used to shrink nav bar removing paddings and adding black background
-        script.
-            $(window).scroll(function () {
-            if ($(document).scrollTop() > 50) {
-                $('.nav').addClass('affix');
-                console.log("OK");
-            } else {
-                $('.nav').removeClass('affix');
-            }
-            });
+            include ./components/details-courses.pug     
