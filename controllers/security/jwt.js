@@ -27,10 +27,19 @@ const verifyAndDecodeData = async (token) => {
 
 const authorizeAndExtractToken = async (req, res, next) => {
     try {
-        if (!req.headers.authorization) {
+        let token;
+        if (!req.headers.authorization && !req.cookies.token) {
             throw new ServerError('Missing authorization header!', 403);
         }
-        const token = req.headers.authorization.split(" ")[1]; 
+
+        if (req.headers.authorization) {
+            token = req.headers.authorization.split(" ")[1];
+            console.log("Token in header:" + token);
+        }
+        if (req.cookies.token) {
+            token = req.cookies.token;
+            console.log("Token in cookie:" + token);
+        }
 
         const decoded = await verifyAndDecodeData(token);
 

@@ -1,4 +1,5 @@
 const express = require('express');
+const cookierParser = require('cookie-parser');
 const users = require('./controllers/users/users.js');
 const auth = require('./controllers/authentication/auth.js');
 const courses = require('./controllers/courses/courses.js');
@@ -14,7 +15,7 @@ app.set('view engine', 'pug');
 app.use(cors());
 
 app.use(express.json()); //middleware for extracting the json body
-app.use(express.urlencoded());
+app.use(cookierParser());
 
 app.use((err, req, res, next) => {
   console.trace(err);

@@ -15,16 +15,19 @@ const router = express.Router();
 
 
 // get all courses
-router.get('/', async (req, resp, next) => {
-    const limit = req.query.limit;
+router.get('/', authorizeAndExtractToken, async (req, resp, next) => {
+    let courseId = req.query.id;
 
     try {
         let courses = await Course.find();
+        let selectedCourse = courses[0];
 
         let domains = {};
 
         for (let i = 0; i < courses.length; i++) {
-
+            if (courseId && courses[i]._id == courseId) {
+                selectedCourse = courses[i];
+            }
             let courseType = courses[i].course_type;
 
             if (domains[courseType]) {
@@ -35,7 +38,7 @@ router.get('/', async (req, resp, next) => {
         }
 
         resp.render('courses', {
-            domains
+            domains, selectedCourse
         });
     } catch (err) {
         next(err);

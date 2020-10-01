@@ -3,44 +3,66 @@ mixin dropdown()
         .card
             #heading1.card-header
                 .mb-0.d-flex.justify-content-between.align-items-center
-                    button.btn.font-medium(data-toggle="collapse" data-target="#collapse1")= key
+                    button.btn.font-medium(data-toggle="collapse" data-target="#collapse" + key)= key
                     span.badge.badge-primary.badge-pill.font-medium= val.length
-            #collapse1.collapse.show(data-parent="#accordion")
+            .collapse.show(data-parent="#accordion" id="#collapse" + key)
                 .card-body.p-0
                     each course in val
-                        .border-bottom.cursor-pointer.p-2.font-medium.text-primary= course.course_name
-
-
-
-
-
-
+                        a.d-block.border-bottom.cursor-pointer.p-2.font-medium.text-primary(href="/courses?id=" + course._id)= course.course_name
 
 #course-details.container.mt-5
     .row
         .col-md-3
             #accordion
-               +dropdown()
+                +dropdown()
         .col-md
-            h1 Course 1
+            h1= selectedCourse.course_name
             .row.p-0
-                img.ml-4(src="https://source.unsplash.com/random/300x200?education")
+                img.ml-4(src= selectedCourse.img)
                 .col.font-medium
-                    p
-                        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    p
-                        | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                        | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                        | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            p.font-medium.mt-3
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            p.font-medium
-                | Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                | eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                | quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    p= selectedCourse.description
             .d-flex.justify-content-end
-                button.btn.btn-warning.btn-lg Apply now!
+                a.btn.btn-warning.btn-lg(href="/courses/apply?id=" + selectedCourse._id) Apply now!
+
+
+//- #course-details.container.mt-5
+//-     .row
+//-         .col-md-3
+//-             #accordion
+//-                 // first domain
+//-                 .card
+//-                     #heading1.card-header
+//-                         .mb-0.d-flex.justify-content-between.align-items-center
+//-                             button.btn.font-medium(data-toggle="collapse" data-target="#collapse1")
+//-                                 | Domain 1
+//-                             span.badge.badge-primary.badge-pill.font-medium 3
+//-                     #collapse1.collapse.show(data-parent="#accordion")
+//-                         .card-body.p-0
+//-                             .border-bottom.cursor-pointer.p-2.font-medium.text-primary
+//-                                 | Course 1
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 2
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 3
+//-                 // second domain
+//-                 .card
+//-                     #heading2.card-header
+//-                         .mb-0.d-flex.justify-content-between.align-items-center
+//-                             button.btn.font-medium.collapsed(data-toggle="collapse" data-target="#collapse2")
+//-                                 | Domain 2
+//-                             span.badge.badge-primary.badge-pill.font-medium 4
+//-                     #collapse2.collapse(data-parent="#accordion")
+//-                         .card-body.p-0
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 1
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 2
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 3
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 4
+//-                 // third domain
+//-                 .card
+//-                     #heading3.card-header
+//-                         .mb-0.d-flex.justify-content-between.align-items-center
+//-                             button.btn.font-medium.collapsed(data-toggle="collapse" data-target="#collapse3")
+//-                                 | Domain 3
+//-                             span.badge.badge-primary.badge-pill.font-medium 2
+//-                     #collapse3.collapse(data-parent="#accordion")
+//-                         .card-body.p-0
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 1
+//-                             .border-bottom.cursor-pointer.p-2.font-medium Course 2

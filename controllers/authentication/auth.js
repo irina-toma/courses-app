@@ -83,6 +83,7 @@ router.post('/login', (req, resp) => {
                         userRole: currentUser.role
                     });
                     console.log(token);
+                    resp.cookie('token', token);
                     resp.send(utils.success({url: '/', token}));
                 } else {
                     console.log(utils.WRONG_PASSWD);
