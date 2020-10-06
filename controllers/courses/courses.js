@@ -1,4 +1,4 @@
-const { Course, pool } = require("../../models");
+const { Course, pool, User } = require("../../models");
 
 const { authorizeAndExtractToken, decodeToken } = require("../security/jwt.js");
 const { authorizeRoles } = require("../security/roles.js");
@@ -67,37 +67,73 @@ router.get("/apply", async (req, resp, next) => {
     next("error finding course");
   }
 
-  const decoded = await decodeToken(req);
+  let user;
 
-  const userList = await pool.query(
-    "SELECT * FROM public.users WHERE id = " + decoded.userId
-  );
+  try {
+    const decoded = await decodeToken(req);
 
-  const user = userList.rows[0];
+    const userList = await pool.query(
+      "SELECT * FROM public.users WHERE id = " + decoded.userId
+    );
 
-  //set course id as cookie 
-//   resp.cookies("courseId", id);
+    user = userList.rows[0];
+  } catch (err) {
+    user = {};
+  }
+
+  //set course id as cookie
+  resp.cookie("courseId", id);
 
   resp.render("apply-form", { course, user });
 });
 
-router.post('/submit', async (req, resp, next) => {
-    // let courseId = req.cookies("courseId");
-    
-    //TODO: add in database
+router.post("/submit", async (req, resp, next) => {
+  let courseId = req.cookies("courseId");
 
+  //TODO: add in database
+  let tempDetails = req.body;
 
-    //redirect to homepage
-    resp.send(utils.success({url: '/'}));
+  try {
+    const decoded = await decodeToken(req);
+
+    let userId = decoded.userId;
+  } catch (err) {
+    let u = new User(
+      tempDetails.name,
+      tempDetails.email,
+      "temp",
+      "temp" + tempDetails.name,
+      "tempRole",
+      false
+    );
+
+    // u.save();
+
+    userId = 1;
+
+    const result = await pool.query({
+      text: "INSERT INTO public.users-roles VALUES ($1, $2)",
+      values: [userId, courseId],
+    });
+
+    resp.send(utils.success({ url: "/" }));
+
+    //de reparat 1. linia 91  2.userID problema  3.linia 114 scos din catch 4.de luat baza de date 5.adresa si telefonul?????
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  }
+
+  //redirect to homepage
+
+  // resp.send(utils.success({ url: "/" }));
 });
 
 router.get("/:id", async (req, resp, next) => {
-    try {
-      let course = await Course.findById(req.params.id);
-      resp.json(course);
-    } catch (err) {
-      next(err);
-    }
-  });
+  try {
+    let course = await Course.findById(req.params.id);
+    resp.json(course);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

@@ -2,7 +2,7 @@ mixin formInput(label, content, disabled, inputType)
     .form-group
         label.h4= label
         .input-group.input-group-lg
-            input.form-control(id= label type= inputType placeholder= label disabled= disabled value= content)
+            input.form-control(id= label name= label type= inputType placeholder= label disabled= disabled value= content)
 
 doctype html
 html(lang="en")
@@ -36,7 +36,7 @@ html(lang="en")
                         +formInput('Duration', course.duration, true, 'text')
                         .form-group
                             label.h4 Select available dates
-                            select#startDate.form-control(multiple='')
+                            select#startDate.form-control(multiple='' name='selectDates')
                                 each val in course.dates
                                     option.h5= val.start_date
                         a.h5(href= course.course_link) See more details about this course
