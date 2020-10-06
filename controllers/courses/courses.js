@@ -38,15 +38,6 @@ router.get("/", async (req, resp, next) => {
   }
 });
 
-router.get("/:id", async (req, resp, next) => {
-  try {
-    let course = await Course.findById(req.params.id);
-    resp.json(course);
-  } catch (err) {
-    next(err);
-  }
-});
-
 router.post("/", async (req, resp, next) => {
   //TODO: validations
   const newCourse = new Course(req.body);
@@ -76,7 +67,7 @@ router.get("/apply", async (req, resp, next) => {
     next("error finding course");
   }
 
-  const decoded = await decodeToken();
+  const decoded = await decodeToken(req);
 
   const userList = await pool.query(
     "SELECT * FROM public.users WHERE id = " + decoded.userId
@@ -84,7 +75,29 @@ router.get("/apply", async (req, resp, next) => {
 
   const user = userList.rows[0];
 
+  //set course id as cookie 
+  resp.cookies("courseId", id);
+
   resp.render("apply-form", { course, user });
 });
+
+router.post('/submit', async (req, resp, next) => {
+    let courseId = req.cookies("courseId");
+    
+    //TODO: add in database
+    
+
+    //redirect to homepage
+    resp.send(utils.success({url: '/'}));
+});
+
+router.get("/:id", async (req, resp, next) => {
+    try {
+      let course = await Course.findById(req.params.id);
+      resp.json(course);
+    } catch (err) {
+      next(err);
+    }
+  });
 
 module.exports = router;

@@ -32,12 +32,11 @@ app.use((err, req, res, next) => {
 
 // app.use('/users', users);
 app.use("/auth", auth);
-
 app.use("/courses", courses);
 
 // should be the last route
 app.use("/", base);
 
-app.listen(4001, () => {
+app.listen(4000, () => {
   // console.log('App listening on port 4000');
 });
