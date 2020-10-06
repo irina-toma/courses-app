@@ -76,16 +76,16 @@ router.get("/apply", async (req, resp, next) => {
   const user = userList.rows[0];
 
   //set course id as cookie 
-  resp.cookies("courseId", id);
+//   resp.cookies("courseId", id);
 
   resp.render("apply-form", { course, user });
 });
 
 router.post('/submit', async (req, resp, next) => {
-    let courseId = req.cookies("courseId");
+    // let courseId = req.cookies("courseId");
     
     //TODO: add in database
-    
+
 
     //redirect to homepage
     resp.send(utils.success({url: '/'}));

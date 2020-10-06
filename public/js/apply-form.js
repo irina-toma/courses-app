@@ -1,4 +1,4 @@
-document.addEventListener("DOMcontentLoaded", onLoad);
+document.addEventListener("DOMContentLoaded", onLoad);
 
 function onLoad() {
     let submitBtn = document.getElementById("course-submit");
@@ -12,11 +12,14 @@ function onLoad() {
 function onClickSubmit() {
     let url = '/courses/submit';
     let form = document.forms["course-apply"];
+    let params = {};
 
     //course stays fixed, we need the selected start date
-    
+
 
     //user info can change
+
+    doPost(url, params);
 }
 
 function doPost(url, params) {
