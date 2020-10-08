@@ -1,0 +1,21 @@
+.modal#modal_message(tabindex='-1')
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title New message
+        button.close(type='button' data-dismiss='modal' aria-label='Close')
+          span(aria-hidden='true') &times;
+      .modal-body
+        form(name='form-message')
+            .form-group
+                label(for='title-message') Title
+                input#title-message.form-control(type='text' placeholder='titlu 1' name='title')
+            .form-group
+                label(for='email') E-mail address
+                input#email.form-control(type='email' placeholder='email@mail.com' name='email')
+            .form-group
+                label(for='message') Message
+                textarea#message.form-control(rows='5' name='body')
+      .modal-footer
+        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+        button.btn.btn-primary(type='button') Send

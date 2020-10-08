@@ -1,7 +1,8 @@
-
 const pool = require("./pool.js");
 const utils = require("../controllers/utils/utils.js");
-const { ServerError } = require("../controllers/utils/errors.js");
+const {
+  ServerError
+} = require("../controllers/utils/errors.js");
 
 class UsersCourses {
   constructor(userId, courseId) {
@@ -15,7 +16,7 @@ class UsersCourses {
       values: [this.userId, this.courseId],
     };
 
-    let result = pool.query(stm);
+    let result = await pool.query(stm);
 
     return result;
   }

@@ -4,6 +4,7 @@ const users = require("./controllers/users/users.js");
 const auth = require("./controllers/authentication/auth.js");
 const courses = require("./controllers/courses/courses.js");
 const base = require("./controllers/base/base.js");
+const messages = require("./controllers/messages/messages.js");
 
 const cors = require("cors");
 
@@ -33,6 +34,7 @@ app.use((err, req, res, next) => {
 // app.use('/users', users);
 app.use("/auth", auth);
 app.use("/courses", courses);
+app.use("/messages", messages);
 
 // should be the last route
 app.use("/", base);

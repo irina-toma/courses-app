@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+    head
+        include ./components/head.pug
+        style
+            include ../public/css/index.css
+
+        script
+            include ../public/js/messages.js
+    body
+        include ./components/header.pug
+
+        div(style="height: 1000px")
+            div.row
+                .col-4
+                    button#open-modal.btn.btn-primary Add new message
+                    each val in messageList
+                        div= val.title
+                        div= val.sender
+                .col
+        include ./components/new-message-modal.pug
