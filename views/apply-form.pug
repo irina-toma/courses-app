@@ -12,6 +12,7 @@ html(lang="en")
             include ../public/css/index.css
 
         script
+            include ../public/js/jwt.js
             include ../public/js/apply-form.js
     body
         include ./components/header.pug
@@ -23,8 +24,13 @@ html(lang="en")
                         h2.mb-3 User Information
                         +formInput('Name', user.name, true, 'text')
                         +formInput('E-mail', user.email, true, 'email')
-                        +formInput('Address', '', false, 'text')
                         +formInput('Phone Number', '', false, 'text')
+                        h3.mb-3 Address
+                        +formInput('Street', '', false, 'text')
+                        +formInput('Number', '', false, 'text')
+                        +formInput('City', '', false, 'text')
+                        +formInput('Postal code', '', false, 'text')
+                        +formInput('Country', '', false, 'text')
                     .col
                         h2.mb-3 Course Information
                         +formInput('Domain', course.course_type, true, 'text')

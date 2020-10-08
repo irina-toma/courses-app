@@ -1,9 +1,12 @@
-const { Course, pool, User } = require("../../models");
+const { Course, pool, User, UsersCourses } = require("../../models");
 
 const { authorizeAndExtractToken, decodeToken } = require("../security/jwt.js");
 const { authorizeRoles } = require("../security/roles.js");
 
+const utils = require("../utils/utils.js");
+
 const express = require("express");
+const jwt = require("../security/jwt.js");
 const router = express.Router();
 
 // get all courses
@@ -88,43 +91,50 @@ router.get("/apply", async (req, resp, next) => {
 });
 
 router.post("/submit", async (req, resp, next) => {
-  let courseId = req.cookies("courseId");
+
+  let courseId = req.cookies["courseId"];
+  if (!courseId) {
+    resp.send(utils.error({ url: "/" }));
+  }
 
   //TODO: add in database
   let tempDetails = req.body;
+  let userId;
 
   try {
     const decoded = await decodeToken(req);
-
-    let userId = decoded.userId;
+    userId = decoded.userId;
   } catch (err) {
-    let u = new User(
+    let newTempUser = new User(
       tempDetails.name,
       tempDetails.email,
       "temp",
-      "temp" + tempDetails.name,
+      "temp" + tempDetails.email,
       "tempRole",
       false
     );
 
-    // u.save();
+    await newTempUser.save();
 
-    userId = 1;
+    // get id of newly created entry
+    tempUser = await User.findByEmail(tempDetails.email);
+    userId = tempUser.id;
 
-    const result = await pool.query({
-      text: "INSERT INTO public.users-roles VALUES ($1, $2)",
-      values: [userId, courseId],
-    });
+    //add address to this user
+    tempUser.addUserDetails(tempDetails.address)
 
-    resp.send(utils.success({ url: "/" }));
-
-    //de reparat 1. linia 91  2.userID problema  3.linia 114 scos din catch 4.de luat baza de date 5.adresa si telefonul?????
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   }
 
-  //redirect to homepage
+  let usercourse = new UsersCourses(userId, courseId);
+  usercourse.save();
 
-  // resp.send(utils.success({ url: "/" }));
+  //since we created a user account, send the token cookie to the ui to know who is this user
+  resp.cookie("token", jwt.generateToken({
+    userId: tempUser.id,
+    userRole: tempUser.role
+  }))
+
+  resp.send(utils.success({ url: "/" }));
 });
 
 router.get("/:id", async (req, resp, next) => {

@@ -4,42 +4,36 @@ function onLoad() {
   let submitBtn = document.getElementById("course-submit");
   submitBtn.addEventListener("click", onClickSubmit);
 
-  let token = localStorage.getItem("token");
+  let name = document.forms["course-apply"]["Name"];
+  let email = document.forms["course-apply"]["E-mail"];
 
-  if (!token) {
-    let name = document.forms["course-apply"]["Name"];
-
-    let email = document.forms["course-apply"]["E-mail"];
-
+  if (!name.value || !email.value) {
     name.removeAttribute("disabled");
-
     email.removeAttribute("disabled");
   }
-
-  // check user autenticated
-  // if autheticated, leave fields name and email as disabled
-  // else, enable them
 }
 
-function onClickSubmit() {
+function onClickSubmit(event) {
+  event.preventDefault();
+
   let url = "/courses/submit";
   let form = document.forms["course-apply"];
   let params = {};
 
-  params.name = document.forms["course-apply"]["Name"].value;
-
-  params.email = document.forms["course-apply"]["E-mail"].value;
-
-  params.address = document.forms["course-apply"]["Address"].value;
-
-  params.phoneNo = document.forms["course-apply"]["Phone Number"].value;
-
-  params.selectedDate =
-    document.forms["course-apply"]["selectedDates"].selectedOptions[0].value;
-
   //course stays fixed, we need the selected start date
-
   //user info can change
+
+  params.name = form["Name"].value;
+  params.email = form["E-mail"].value;
+  params.address = {
+    street: form["Street"].value,
+    number: form["Number"].value,
+    city: form["City"].value,
+    postalCode: form["Postal code"].value,
+    country: form["Country"].value
+  }
+  params.phoneNo = form["Phone Number"].value;
+  params.selectedDate = form["selectDates"].selectedOptions[0].value;
 
   doPost(url, params);
 }

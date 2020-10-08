@@ -17,10 +17,12 @@ const mongoose = require('mongoose');
 
 const Course = require('./Course.js');
 const User = require('./User.js');
+const UsersCourses = require('./UserCourse.js');
 const pool = require('./pool.js');
 
 module.exports = {
   Course,
   User,
+  UsersCourses,
   pool
 }
