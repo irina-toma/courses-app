@@ -96,10 +96,19 @@ class User {
   }
 
   static async findByEmail(email) {
+    return await User.findBy("email", email);
+  }
+
+  static async findByUsername(username) {
+    return await User.findBy("username", username);
+  }
+
+  static async findBy(field, value) {
     const stm = {
-      text: "SELECT * FROM users where email=$1",
-      values: [email]
+      text: `SELECT * FROM users WHERE ${field}=$1`,
+      values: [value]
     }
+
     let result = await pool.query(stm);
 
     if (result.rows.length == 1) {
@@ -109,7 +118,6 @@ class User {
 
     return null;
   }
-
 
 }
 
