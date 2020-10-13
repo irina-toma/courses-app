@@ -2,6 +2,7 @@ doctype html
 html(lang="en")
     head
         include ./components/head.pug
+        script(src="https://unpkg.com/micromodal/dist/micromodal.min.js")
         style
             include ../public/css/index.css
 
@@ -10,12 +11,41 @@ html(lang="en")
     body
         include ./components/header.pug
 
-        div(style="height: 1000px")
+        div(style="height: 1000px").container.mt-4
             div.row
                 .col-4
-                    button#open-modal.btn.btn-primary Add new message
+                    button#addMsgBtn.btn.btn-primary.btn-block Add new message
+                    .row.mx-0
+                        button#sentMsgs.btn.btn-warning.col Sent
+                        button#recvMsgs.btn.btn-success.col Received
                     each val in messageList
-                        div= val.title
-                        div= val.sender
+                        div(onclick=`onClickMessage("${val.title}", "${val.from}", "${val.body}")`)
+                            div= val.title
+                            div= val.from
                 .col
-        include ./components/new-message-modal.pug
+                div
+                    //- afisam continutul mesajului (primul mesaj sau mesajul selectat)
+                    form(name='view-message')
+                        .form-group
+                            label Title
+                            input.form-control(type='text' name='title' disabled=true value= messageList[0].title)
+                        .form-group
+                            label Sender
+                            input.form-control(type='text' name='username' disabled=true value= messageList[0].from)
+                        .form-group
+                            label Message
+                            textarea.form-control(rows='5' name='body' disabled=true)= messageList[0].body
+                #msgContent.d-none
+                    form(name='form-message')
+                        .form-group
+                            label(for='title-message') Title
+                            input#title-message.form-control(type='text' placeholder='Your message title' name='title')
+                        .form-group
+                            label(for='email') Username
+                            input#username.form-control(type='text' placeholder='Username' name='username')
+                        .form-group
+                            label(for='message') Message
+                            textarea#message.form-control(rows='5' name='body')
+                        button#sendMsg.btn.btn-primary(type='button') Send
+                #err-msg.text-danger
+        //- include ./components/new-message-modal.pug

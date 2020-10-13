@@ -17,11 +17,45 @@ class Message {
 
     static async findAll() {
         const query = 'SELECT * FROM messages';
+        return await Message.findByQuery(query);
+    }
 
+    static async findByQuery(query) {
         let result = await pool.query(query);
+
+        // for pe randuri
+        // in loc de to si from sa punem username --> un request pt a luat numele de utilizator
 
         return result.rows;
     }
+
+    static async findByOwner(ownerId) {
+        const query = {
+            text: 'SELECT * FROM messages WHERE owner=$1',
+            values: [ownerId]
+        };
+
+        return await Message.findByQuery(query);
+    }
+
+    static async findByOwnerSent(ownerId) {
+        const query = `SELECT * FROM messages WHERE "owner"=${ownerId} AND "from"=${ownerId}`
+        // {
+        //     text: 'SELECT * FROM messages WHERE owner=$1 AND from=$2',
+        //     values: [ownerId, ownerId]
+        // };
+
+        return await Message.findByQuery(query);
+    }
+
+    static async findByOwnerReceived(ownerId) {
+        const query = {
+            text: 'SELECT * FROM messages WHERE "owner"=$1 AND "to"=$2',
+            values: [ownerId, ownerId]
+        };
+
+        return await Message.findByQuery(query);
+    }    
 
     async save() {
         const stm = {
