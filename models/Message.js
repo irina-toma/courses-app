@@ -23,9 +23,6 @@ class Message {
     static async findByQuery(query) {
         let result = await pool.query(query);
 
-        // for pe randuri
-        // in loc de to si from sa punem username --> un request pt a luat numele de utilizator
-
         return result.rows;
     }
 
@@ -39,21 +36,12 @@ class Message {
     }
 
     static async findByOwnerSent(ownerId) {
-        const query = `SELECT * FROM messages WHERE "owner"=${ownerId} AND "from"=${ownerId}`
-        // {
-        //     text: 'SELECT * FROM messages WHERE owner=$1 AND from=$2',
-        //     values: [ownerId, ownerId]
-        // };
-
+        const query = `select m.id, m.title, m.to, m.from, m.flags, m.body, m.to_list, u.username from messages as m, users as u where m.owner = ${ownerId} and m.from = ${ownerId} and m.to = u.id`;
         return await Message.findByQuery(query);
     }
 
     static async findByOwnerReceived(ownerId) {
-        const query = {
-            text: 'SELECT * FROM messages WHERE "owner"=$1 AND "to"=$2',
-            values: [ownerId, ownerId]
-        };
-
+        const query = `select m.id, m.title, m.to, m.from, m.flags, m.body, m.to_list, u.username from messages as m, users as u where m.owner = ${ownerId} and m.to = ${ownerId} and m.from = u.id`;
         return await Message.findByQuery(query);
     }    
 
@@ -66,6 +54,31 @@ class Message {
         let result = await pool.query(stm);
 
         return result;
+    }
+
+    static async addMailingList(name, usernameList) {
+        // const stm = {
+        //     text: 'SELECT id from users WHERE username IN ($1)',
+        //     values: [usernameList]
+        // }
+
+       
+        let names = usernameList.map(user => `'${user}'`).join(',');
+        const stm = `SELECT id from users WHERE username IN (${names});`;
+
+        let result = await pool.query(stm);
+        let ids = result.rows;
+
+        if (ids.length > 0) {
+            for (let id of ids) {
+                const stm = {
+                    text: "INSERT INTO mailing_list('name', 'user_id') VALUES ('$1', $2)", // TODO: fix this
+                    values: [name, id]
+                }
+                await pool.query(stm);
+            }
+        }
+        
     }
 }
 

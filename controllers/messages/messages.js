@@ -16,7 +16,7 @@ const {
 router.get("/", authorizeAndExtractToken, async (req, resp, next) => {
     let currentId = req.state.decoded.userId;
 
-    let messageList = await Message.findByOwner(currentId);
+    let messageList = await Message.findByOwnerSent(currentId);
 
     console.log(messageList);
     
@@ -41,6 +41,7 @@ router.get("/received", authorizeAndExtractToken, async (req, resp, next) => {
     let currentId = req.state.decoded.userId;
 
     let messageList = await Message.findByOwnerReceived(currentId);
+    console.log(messageList);
     
     resp.render("messages", {
         messageList
@@ -70,9 +71,19 @@ router.post("/", authorizeAndExtractToken, async (req, resp, next) => {
     } else {
         next("Wrong username");
     }
-
-
 });
 
+router.post("/mailing-list", authorizeAndExtractToken, async (req, resp, next) => { // TODO: autorizat pt universitati si admin
+    let params = req.body;
+
+    if (!params.name || !params.usernameList) {
+        next("Missing parameters");
+    } 
+    else {
+        Message.addMailingList(params.name, params.usernameList);
+        resp.send(utils.success());
+    }
+
+});
 
 module.exports = router;

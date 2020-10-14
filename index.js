@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// app.use('/users', users);
+app.use('/users', users);
 app.use("/auth", auth);
 app.use("/courses", courses);
 app.use("/messages", messages);

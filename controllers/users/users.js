@@ -6,7 +6,7 @@ const { authorizeAndExtractToken } = require('../security/jwt.js');
 const { authorizeRoles } = require('../security/roles.js');
 
 //get user information
-router.get('/', authorizeAndExtractToken, authorizeRoles('admin'), (req, resp, next) => {
+router.get('/', authorizeAndExtractToken, (req, resp, next) => { //TODO: authorize university and admin
     //by username
     // localhost:4000/users?username=irina
     if (req.query.hasOwnProperty('username')) {
