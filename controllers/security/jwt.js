@@ -40,7 +40,8 @@ const authorizeAndExtractToken = async (req, res, next) => {
 
     next();
   } catch (err) {
-    next(err);
+    res.redirect("/error");
+    next();
   }
 };
 

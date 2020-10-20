@@ -1,20 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const {
-    pool,
-    Message,
-    User
-} = require('../../models');
-const utils = require('../utils/utils.js');
-const {
-    authorizeAndExtractToken
-} = require('../security/jwt.js');
-const {
-    authorizeRoles
-} = require('../security/roles.js')
+const { pool, Message, User } = require("../../models");
+const utils = require("../utils/utils.js");
+const { authorizeAndExtractToken } = require("../security/jwt.js");
+const { authorizeRoles } = require("../security/roles.js");
 
 router.get("/", authorizeAndExtractToken, async (req, resp, next) => {
-    let currentId = req.state.decoded.userId;
+  let currentId = req.state.decoded.userId;
 
     let messageList = await Message.findByOwnerSent(currentId);
     let mailingList = await Message.getMyMailingLists(currentId);
@@ -24,7 +16,6 @@ router.get("/", authorizeAndExtractToken, async (req, resp, next) => {
     resp.render("messages", {
         messageList, mailingList
     });
-
 });
 
 router.delete("/:id", authorizeAndExtractToken, async (req, resp, next) => {
@@ -40,7 +31,7 @@ router.delete("/:id", authorizeAndExtractToken, async (req, resp, next) => {
 });
 
 router.get("/sent", authorizeAndExtractToken, async (req, resp, next) => {
-    let currentId = req.state.decoded.userId;
+  let currentId = req.state.decoded.userId;
 
     let messageList = await Message.findByOwnerSent(currentId);
     let mailingList = await Message.getMyMailingLists(currentId);
@@ -48,11 +39,10 @@ router.get("/sent", authorizeAndExtractToken, async (req, resp, next) => {
     resp.render("messages", {
         messageList, mailingList
     });
-
 });
 
 router.get("/received", authorizeAndExtractToken, async (req, resp, next) => {
-    let currentId = req.state.decoded.userId;
+  let currentId = req.state.decoded.userId;
 
     let messageList = await Message.findByOwnerReceived(currentId);
     let mailingList = await Message.getMyMailingLists(currentId);
@@ -62,7 +52,6 @@ router.get("/received", authorizeAndExtractToken, async (req, resp, next) => {
     resp.render("messages", {
         messageList, mailingList
     });
-
 });
 
 router.post("/", authorizeAndExtractToken, async (req, resp, next) => {
@@ -136,7 +125,7 @@ router.post("/mailing-list", authorizeAndExtractToken, async (req, resp, next) =
         Message.addMailingList(params.name, params.usernameList);
         resp.send(utils.success());
     }
-
-});
+  }
+);
 
 module.exports = router;

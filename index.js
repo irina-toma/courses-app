@@ -5,6 +5,7 @@ const auth = require("./controllers/authentication/auth.js");
 const courses = require("./controllers/courses/courses.js");
 const base = require("./controllers/base/base.js");
 const messages = require("./controllers/messages/messages.js");
+const error = require("./controllers/error/error.js");
 
 const cors = require("cors");
 
@@ -31,13 +32,18 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.use('/users', users);
+app.use("/users", users);
 app.use("/auth", auth);
 app.use("/courses", courses);
 app.use("/messages", messages);
+app.use("/error", error);
 
 // should be the last route
 app.use("/", base);
+
+app.use(function (req, res, next) {
+  res.status(404).render("404page");
+});
 
 app.listen(4000, () => {
   // console.log('App listening on port 4000');
