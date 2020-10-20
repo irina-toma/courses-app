@@ -21,9 +21,11 @@ html(lang="en")
                         button#recvMsgs.btn.btn-success.col Received
                     each val in messageList
                         .border.p-4.cursor-pointer.msg-box(onclick=`onClickMessage("${val.title}", "${val.username}", "${val.body}")`)
-                            .h4
-                                span.mr-2 From:
-                                span= val.username
+                            .d-flex.justify-content-between
+                                .h4
+                                    span.mr-2 From:
+                                    span= val.username
+                                i.fas.fa-trash.h4.text-danger(onclick=`onClickDeleteMessage("${val.id}")`)
                             .h5= val.title
                             
                 .col.border.p-5
@@ -48,8 +50,12 @@ html(lang="en")
                                 label(for='title-message') Title
                                 input#title-message.form-control.form-control-lg(type='text' placeholder='Your message title' name='title')
                             .form-group.h5
+                                //- TODO: transform from input into div with clickable elements, also delete elements
+                                //- TODO: group from mailingList to have different color that normal element
                                 label(for='email') Username
                                 input#username.form-control.form-control-lg(type='text' placeholder='Username' name='username')
+                                each username in mailingList   
+                                    .border.p-3(onclick=`onClickMailingUsername("${username.name}")`)= username.name
                             .form-group.h5
                                 label(for='message') Message
                                 textarea#message.form-control.form-control-lg(rows='5' name='body')

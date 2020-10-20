@@ -23,6 +23,33 @@ function onLoad() {
     sendMailingList.addEventListener("click", onClickSendMailingList);
 }
 
+function onClickDeleteMessage(msgId) {
+    console.log(msgId);
+    let deleteBtn = event.target;
+    let msgBox = deleteBtn.closest(".msg-box");
+    let parent = msgBox.parentElement;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("DELETE", `http://localhost:4000/messages/${msgId}`);
+    xhr.send();
+    xhr.onload = () => {
+        let data = JSON.parse(xhr.response);
+        if (data.success) {
+            // TODO: check why remove deletes the buttons
+            parent.remove(msgBox);
+        } else {
+            displayError(data.message)
+        }
+    };
+    
+}
+
+function onClickMailingUsername(username) {
+    let inputUsername = document.forms['form-message']['username'];
+
+    inputUsername.value += `, ${username}`;  
+}
+
 function onClickSendMailingList() {
     let mailingListName = document.forms["form-mailing-list"]["name"].value;
 
@@ -79,8 +106,9 @@ function onClickSendMsg() {
 
     // TODO validari
 
+    // TODO: mark group from mailing list, to be able to differentiate on the server-side
+    // example: toList = [{name: "user1"}, {name: "user2"}, {name: "group1", group: true}]
     doPost("http://localhost:4000/messages", { to, title, body });
-
 }
 
 function doPost(url, params) {

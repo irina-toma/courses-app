@@ -67,18 +67,42 @@ class Message {
         const stm = `SELECT id from users WHERE username IN (${names});`;
 
         let result = await pool.query(stm);
-        let ids = result.rows;
+        let rows = result.rows;
 
-        if (ids.length > 0) {
-            for (let id of ids) {
+        if (rows.length > 0) {
+            for (let row of rows) {
                 const stm = {
-                    text: "INSERT INTO mailing_list('name', 'user_id') VALUES ('$1', $2)", // TODO: fix this
-                    values: [name, id]
+                    text: 'INSERT INTO mailing_list(name, user_id) VALUES ($1, $2)', // TODO: fix this
+                    values: [name, row.id]
                 }
                 await pool.query(stm);
             }
         }
-        
+    }
+
+    static async getMyMailingLists(id) {
+        let stm = {
+            text: "SELECT name from mailing_list WHERE user_id = $1",
+            values: [id]
+        }
+
+        let result = await pool.query(stm);
+        return result.rows;
+    }
+
+    static async checkInMailingList(groupName) {
+        let stm = {
+            text: "SELECT * from mailing_list WHERE name=$1",
+            values: [groupName]
+        }
+        let result = await pool.query(stm);
+        return result.rows;
+    }
+
+    static async delete(id) {
+        let stm = `DELETE FROM messages WHERE id=${id}`;
+        let result = await pool.query(stm);
+        return result;
     }
 }
 
