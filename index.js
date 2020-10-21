@@ -43,6 +43,7 @@ app.use("/", base);
 
 app.use(function (req, res, next) {
   res.status(404).render("404page");
+  next();
 });
 
 app.listen(4000, () => {

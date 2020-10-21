@@ -20,7 +20,7 @@ router.get("/", async (req, resp, next) => {
     let domains = {};
 
     for (let i = 0; i < courses.length; i++) {
-      if (courseId && courses[i]._id == courseId) {
+      if (courseId && courses[i]._id === courseId) {
         selectedCourse = courses[i];
       }
       let courseType = courses[i].course_type;
@@ -90,7 +90,7 @@ router.get("/apply", async (req, resp, next) => {
   resp.render("apply-form", { course, user });
 });
 
-router.post("/submit", async (req, resp, next) => {
+router.post("/submit", async (req, resp) => {
 
   let courseId = req.cookies["courseId"];
   if (!courseId) {
@@ -121,7 +121,7 @@ router.post("/submit", async (req, resp, next) => {
     userId = tempUser.id;
 
     //add address to this user
-    tempUser.addUserDetails(tempDetails.address)
+    await tempUser.addUserDetails(tempDetails.address)
 
   }
 
