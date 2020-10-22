@@ -57,14 +57,10 @@ function onClickSendMailingList() {
 }
 
 function onClickAddMailingListBtn() {
+    hideDetails()
+
     let mailingListForm = document.getElementById("mailingList");
     mailingListForm.classList.remove("d-none");
-
-    let msgAdd = document.getElementById("msgAdd");
-    msgAdd.classList.add('d-none');
-
-    let msgContent = document.getElementById("msgContent");
-    msgContent.classList.add('d-none');
 
     // ajax to get all users
     getUsers();
@@ -94,6 +90,8 @@ function onClickRecvMsgs() {
 }
 
 function onClickAddBtn() {
+    hideDetails();
+
     let msgAdd = document.getElementById("msgAdd");
     msgAdd.classList.remove('d-none');
 }
@@ -154,7 +152,7 @@ function getUsers() {
 function createUserElem(user) {
     let container = document.createElement("div");
     container.innerHTML = user.username;
-    container.classList.add("p-3", "mr-2", "border");
+    container.classList.add("p-3", "mr-2", "border", "col", "rounded-pill", "text-center");
     container.setAttribute("data-username", user.username);
 
     container.addEventListener("click", addUserToList);
@@ -175,13 +173,24 @@ function addUserToList(event) {
         usernameList.push(username);
     }
 
-    container.classList.toggle('bg-success');
+    container.classList.toggle('border-info');
 
 }
 
 function displayError(err) {
     const msgElem = document.getElementById('err-msg');
     msgElem.innerHTML = err;
+}
+
+function hideDetails() {
+    let elem = document.getElementById('msgContent');
+    elem.classList.add('d-none');
+
+    elem = document.getElementById('msgAdd');
+    elem.classList.add('d-none');
+
+    elem = document.getElementById('mailingList');
+    elem.classList.add('d-none');
 }
 
 

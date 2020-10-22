@@ -54,8 +54,9 @@ html(lang="en")
                                 //- TODO: group from mailingList to have different color that normal element
                                 label(for='email') Username
                                 input#username.form-control.form-control-lg(type='text' placeholder='Username' name='username')
-                                each username in mailingList   
-                                    .border.p-3(onclick=`onClickMailingUsername("${username.name}")`)= username.name
+                                .border.d-flex.p-3
+                                    each username in mailingList   
+                                        .border.p-3.mr-2.col.rounded-pill.text-center(onclick=`onClickMailingUsername("${username.name}")`)= username.name
                             .form-group.h5
                                 label(for='message') Message
                                 textarea#message.form-control.form-control-lg(rows='5' name='body')
@@ -65,7 +66,7 @@ html(lang="en")
                             .form-group.h5
                                 label(for='title-message') Name
                                 input#title-message.form-control.form-control-lg(type='text' placeholder='The name of the mailing list' name='name')
-                            #container-usernames.border
+                            #container-usernames.border.d-flex.p-3
                             button#sendMailingList.btn.btn-primary(type='button') Add mailing list
                 #err-msg.text-danger
         //- include ./components/new-message-modal.pug
