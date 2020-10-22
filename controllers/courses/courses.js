@@ -42,7 +42,6 @@ router.get("/", async (req, resp, next) => {
 });
 
 router.post("/", async (req, resp, next) => {
-  //TODO: validations
   const newCourse = new Course(req.body);
 
   try {
@@ -91,7 +90,6 @@ router.get("/apply", async (req, resp, next) => {
 });
 
 router.post("/submit", async (req, resp) => {
-
   let courseId = req.cookies["courseId"];
   if (!courseId) {
     resp.send(utils.error({ url: "/" }));
@@ -121,18 +119,20 @@ router.post("/submit", async (req, resp) => {
     userId = tempUser.id;
 
     //add address to this user
-    await tempUser.addUserDetails(tempDetails.address)
-
+    await tempUser.addUserDetails(tempDetails.address);
   }
 
   let usercourse = new UsersCourses(userId, courseId);
   usercourse.save();
 
   //since we created a user account, send the token cookie to the ui to know who is this user
-  resp.cookie("token", jwt.generateToken({
-    userId: tempUser.id,
-    userRole: tempUser.role
-  }))
+  resp.cookie(
+    "token",
+    jwt.generateToken({
+      userId: tempUser.id,
+      userRole: tempUser.role,
+    })
+  );
 
   resp.send(utils.success({ url: "/" }));
 });

@@ -54,7 +54,7 @@ html(lang="en")
                                 //- TODO: group from mailingList to have different color that normal element
                                 label(for='email') Username
                                 input#username.form-control.form-control-lg(type='text' placeholder='Username' name='username')
-                                .border.d-flex.p-3
+                                #mailing-names.border.d-flex.p-3
                                     each username in mailingList   
                                         .border.p-3.mr-2.col.rounded-pill.text-center(onclick=`onClickMailingUsername("${username.name}")`)= username.name
                             .form-group.h5

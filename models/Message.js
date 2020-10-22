@@ -14,7 +14,7 @@ class Message {
   }
 
   static async findAll() {
-    const query = 'SELECT * FROM messages';
+    const query = "SELECT * FROM messages";
     return await Message.findByQuery(query);
   }
 
@@ -26,8 +26,8 @@ class Message {
 
   static async findByOwner(ownerId) {
     const query = {
-      text: 'SELECT * FROM messages WHERE owner=$1',
-      values: [ownerId]
+      text: "SELECT * FROM messages WHERE owner=$1",
+      values: [ownerId],
     };
 
     return await Message.findByQuery(query);
@@ -45,8 +45,17 @@ class Message {
 
   async save() {
     const stm = {
-      text: 'INSERT INTO messages("to", "from", "owner", "body", "title", "flags", "to_list") VALUES($1, $2, $3, $4, $5, $6, $7)',
-      values: [this.to, this.from, this.owner, this.body, this.title, this.flags, this.toList],
+      text:
+        'INSERT INTO messages("to", "from", "owner", "body", "title", "flags", "to_list") VALUES($1, $2, $3, $4, $5, $6, $7)',
+      values: [
+        this.to,
+        this.from,
+        this.owner,
+        this.body,
+        this.title,
+        this.flags,
+        this.toList,
+      ],
     };
 
     let result = await pool.query(stm);
@@ -55,24 +64,20 @@ class Message {
   }
 
   static async addMailingList(name, usernameList) {
-    // const stm = {
-    //     text: 'SELECT id from users WHERE username IN ($1)',
-    //     values: [usernameList]
-    // }
-
-
-    let names = usernameList.map(user => `'${user}'`).join(',');
+    if (usernameList.length == 0) {
+      return;
+    }
+    let names = usernameList.map((user) => `'${user}'`).join(",");
     const stm = `SELECT id from users WHERE username IN (${names});`;
 
     let result = await pool.query(stm);
+
     let rows = result.rows;
 
     if (rows.length > 0) {
       for (let row of rows) {
-        const stm = {
-          text: 'INSERT INTO mailing_list(name, user_id) VALUES ($1, $2)', // TODO: fix this
-          values: [name, row.id]
-        }
+        const stm = `INSERT INTO mailing_list("name", "user_id") VALUES ('${name}', ${row.id})`;
+        console.log(stm);
         await pool.query(stm);
       }
     }
@@ -81,8 +86,8 @@ class Message {
   static async getMyMailingLists(id) {
     let stm = {
       text: "SELECT name from mailing_list WHERE user_id = $1",
-      values: [id]
-    }
+      values: [id],
+    };
 
     let result = await pool.query(stm);
     return result.rows;
@@ -91,9 +96,11 @@ class Message {
   static async checkInMailingList(groupName) {
     let stm = {
       text: "SELECT * from mailing_list WHERE name=$1",
-      values: [groupName]
-    }
+      values: [groupName],
+    };
+
     let result = await pool.query(stm);
+
     return result.rows;
   }
 
@@ -103,6 +110,5 @@ class Message {
     return result;
   }
 }
-
 
 module.exports = Message;
