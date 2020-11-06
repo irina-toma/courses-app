@@ -78,7 +78,7 @@ router.post("/", authorizeAndExtractToken, async (req, resp, next) => {
       let mailingListName = user.name;
       // validate group is in mailing list
       let mailingEntryList = await Message.checkInMailingList(mailingListName);
-      if (!mailingEntryList.length == 0) {
+      if (mailingEntryList.length == 0) {
         next("Mailing group does not exist");
       } else {
         //currentUser are in sent un mail de la el catre lista/grup
