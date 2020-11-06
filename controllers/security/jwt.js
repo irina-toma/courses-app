@@ -7,8 +7,11 @@ const options = {
   audience: process.env.JWT_AUDIENCE,
 };
 
-const generateToken = async (payload) => {
+const generateToken = async (payload, shouldExpire = false) => {
   try {
+    if (shouldExpire) {
+      options.expiresIn = 600;
+    }
     const token = await jwt.sign(payload, process.env.JWT_SECRET_KEY, options);
     return token;
   } catch (err) {
@@ -68,4 +71,5 @@ module.exports = {
   generateToken,
   authorizeAndExtractToken,
   decodeToken,
+  verifyAndDecodeData,
 };

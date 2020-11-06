@@ -30,6 +30,7 @@ function onLoad() {
 }
 
 function onClickDeleteMessage(msgId) {
+<<<<<<< Updated upstream
     console.log(msgId);
     let deleteBtn = event.target;
     let msgBox = deleteBtn.closest(".msg-box");
@@ -47,6 +48,25 @@ function onClickDeleteMessage(msgId) {
             displayError(data.message);
         }
     };
+=======
+  console.log(msgId);
+  let deleteBtn = event.target;
+  let msgBox = deleteBtn.closest(".msg-box");
+  let parent = msgBox.parentElement;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("DELETE", `http://localhost:4000/messages/${msgId}`);
+  xhr.send();
+  xhr.onload = () => {
+    let data = JSON.parse(xhr.response);
+    if (data.success) {
+      // check why remove deletes the buttons, they don't any more
+      parent.remove(msgBox);
+    } else {
+      displayError(data.message);
+    }
+  };
+>>>>>>> Stashed changes
 }
 
 function onClickMailingUsername(username) {
@@ -114,6 +134,7 @@ function onClickAddBtn() {
 }
 
 function onClickSendMsg() {
+<<<<<<< Updated upstream
     let form = document.forms["form-message"];
     let to = form["username"].value;
     let title = form["title"].value;
@@ -131,6 +152,25 @@ function onClickSendMsg() {
         title,
         body,
     });
+=======
+  let form = document.forms["form-message"];
+  let to = form["username"].value;
+  let title = form["title"].value;
+  let body = form["body"].value;
+
+  if (!to || !title || !body) {
+    alert("please input all fields");
+    return;
+  }
+
+  // mark group from mailing list, to be able to differentiate on the server-side
+  // example: toList = [{name: "user1"}, {name: "user2"}, {name: "group1", group: true}]
+  doPost("http://localhost:4000/messages", {
+    toList: usernameInput,
+    title,
+    body,
+  });
+>>>>>>> Stashed changes
 }
 
 function doPost(url, params) {
